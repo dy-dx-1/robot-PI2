@@ -25,15 +25,17 @@ void setup() {
 }
 
 void loop() { 
-  //translation(-300); 
-  //Serial.println("recul"); 
-  //translation(150); 
+  //// Logique centrale du code, distances en mm et angles en degrés 
+  translation(-300); 
+  Serial.println("recul"); 
+  translation(150); 
   turn(2); 
   while (true){}
 }
 
 
 int demarrage(int etat){
+  // TODO: check bounce 
   etat = digitalRead(bouton); 
   if(etat == HIGH) {
     digitalWrite(led_verte, HIGH); // éteint la LED
