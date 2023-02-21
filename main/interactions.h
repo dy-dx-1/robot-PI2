@@ -1,0 +1,3 @@
+////// Fichier regroupant les fonctions nécessaires à l'intéraction entre la voiture et les utilisateurs 
+////// ex: clignoter une lumière, démarrer le prototype, etc... 
+
