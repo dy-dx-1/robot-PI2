@@ -3,6 +3,7 @@
 #include <AccelStepper.h>
 const int max_stepper_speed = 400; 
 const float stepper_accel = 200.0; 
+const int rayon_roue = 30; // rayon des roues motrices en mm 
 
 // Création des objets représentant les steppers 
 AccelStepper moteur_G(AccelStepper::FULL4WIRE, 11, 9, 10, 8);
@@ -18,7 +19,6 @@ void stepper_setup(){
 
 int convert_dist_pas(int distance_mm){
   //// Fonction qui converti une distance linéaire en mm à un nombre de pas équivalent pour nos steppers, en supposant un roulement sans glisser 
-  int rayon_roue = 30; // en mm 
 
   if (distance_mm<0){
     // Si on a une distance négative, il faut forcer une valeur positive avant de faire le calcul pour avoir une bonne valeur car unsigned long ne peut être négatif
@@ -41,14 +41,15 @@ void translation(int x){
     // Déclaration du nb de pas à faire au moteur 
     moteur_G.move(N); 
     moteur_D.move(-N);     // Un des moteurs n'est pas dans le même sens physique, d'où la valeur <0 pour préserver une ligne droite 
-    int distance_left{10}; 
-
+  
+    // Commencement du déplacement est indiqué par la lumière verte 
+    digitalWrite(led_verte, HIGH); 
     // La méthode run doit être appellée en continu jusqu'à qu'on arrive à destination
     while (moteur_D.distanceToGo() != 0){ // distanceToGo donne le nb de pas restants avant de se rendre à notre objectif 
       moteur_G.run();
       moteur_D.run();
     }
-
+    digitalWrite(led_verte, LOW); 
 }
 
 void turn(int theta){
