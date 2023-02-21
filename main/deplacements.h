@@ -24,7 +24,7 @@ int convert_dist_pas(int distance_mm){
     // Si on a une distance négative, il faut forcer une valeur positive avant de faire le calcul pour avoir une bonne valeur car unsigned long ne peut être négatif
     distance_mm = -distance_mm; 
     unsigned long nominateur = 1024L*distance_mm;  // important de convertir 1024 à long pour faire la multi et avoir le bon résultat 
-    return -(nominateur)/(rayon_roue * 3.14159);  // ici on force un négatif pour reculer 
+    return -((nominateur)/(rayon_roue * 3.14159));  // ici on force un négatif pour reculer 
   }
   else {
     unsigned long nominateur = 1024L*distance_mm;  // important de convertir 1024 à long pour faire la multi et avoir le bon résultat
@@ -37,18 +37,18 @@ void translation(int x){
 
     // Conversion de mm à pas, les valeurs négatives sont supportées par la fonction 
     int N = convert_dist_pas(x);
-
+    Serial.println(N); 
     // Déclaration du nb de pas à faire au moteur 
     moteur_G.move(N); 
     moteur_D.move(-N);     // Un des moteurs n'est pas dans le même sens physique, d'où la valeur <0 pour préserver une ligne droite 
     int distance_left{10}; 
 
     // La méthode run doit être appellée en continu jusqu'à qu'on arrive à destination
-    while (distance_left != 0){
+    while (moteur_D.distanceToGo() != 0){ // distanceToGo donne le nb de pas restants avant de se rendre à notre objectif 
       moteur_G.run();
       moteur_D.run();
-      distance_left = moteur_D.distanceToGo(); // distanceToGo donne le nb de pas restants avant de se rendre à notre objectif 
     }
+
 }
 
 void turn(int theta){
@@ -61,9 +61,8 @@ void turn(int theta){
     moteur_G.move(N); 
     moteur_D.move(N); 
     int distance_left{10}; 
-    while (distance_left != 0){
+    while (moteur_D.distanceToGo() != 0){
       moteur_G.run();
       moteur_D.run();
-      distance_left = moteur_D.distanceToGo(); 
     }
 }
