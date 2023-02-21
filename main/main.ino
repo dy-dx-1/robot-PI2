@@ -3,21 +3,20 @@
 // Importation des modules 
 #include "deplacements.h"
 
-const int bouton = 42;   // définition de la broche 42 de la carte en tant que variable
+const int button= 53;   // définition de la broche 42 de la carte en tant que variable
 const int led_rouge = 46;   // définition de la broche 46 de la carte en tant que variable
 const int led_jaune = 48;   // définition de la broche 48 de la carte en tant que variable
 const int led_verte = 50;   // définition de la broche 50 de la carte en tant que variable
-int etat = HIGH;
-int n;
 
 
 void setup() {
   // put your setup code here, to run once:
-  pinMode(bouton, INPUT);
+  pinMode(button, INPUT);
   pinMode(led_rouge, OUTPUT);
   pinMode(led_jaune, OUTPUT);
   pinMode(led_verte, OUTPUT);
 
+  pinMode(button, INPUT_PULLUP);  // utilisation d'un pullup resistor pour façiliter l'utilisation du bouton
   // Setup des moteurs 
   stepper_setup(); 
 
@@ -26,28 +25,19 @@ void setup() {
 
 void loop() { 
   //// Logique centrale du code, distances en mm et angles en degrés 
-  translation(-300); 
-  Serial.println("recul"); 
-  translation(150); 
-  turn(2); 
-  while (true){}
+  wait_for_button(); 
+  translation(-100); 
+  translation(50); 
 }
 
 
-int demarrage(int etat){
-  // TODO: check bounce 
-  etat = digitalRead(bouton); 
-  if(etat == HIGH) {
-    digitalWrite(led_verte, HIGH); // éteint la LED
-    digitalWrite(led_rouge, LOW);  // allume la LED
-    digitalWrite(led_jaune, HIGH); // éteint la LED
+void wait_for_button(){
+  digitalWrite(led_rouge, HIGH); 
+  digitalWrite(led_jaune, LOW); 
+  digitalWrite(led_verte, LOW); 
+  while (digitalRead(button)!=0){ // Pendant que le bouton n'est pas appuyé
+    Serial.println("Waiting for startup"); 
   }
-  else {
-    delay(500); 
-    digitalWrite(led_jaune, HIGH); // éteint la LED
-    digitalWrite(led_verte, LOW); // allume la LED
-    digitalWrite(led_rouge, HIGH); // éteint la LED
-  }
-  return (etat);
+  digitalWrite(led_rouge, LOW); 
+  digitalWrite(led_verte, HIGH); 
 }
-
