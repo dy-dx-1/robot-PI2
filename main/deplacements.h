@@ -4,6 +4,7 @@
 const int base_stepper_speed = 400; 
 const float stepper_accel = 200.0; 
 const int rayon_roue = 30; // rayon des roues motrices en mm 
+const int d_entre_roues = 100; // distance entre les roues motrices en mm //////////////////////////// À UPDATE!!!!!!!!!!!!!!!!!!!!!
 
 // Création des objets représentant les steppers 
 AccelStepper moteur_G(AccelStepper::FULL4WIRE, 11, 9, 10, 8);
@@ -32,37 +33,50 @@ int convert_dist_pas(int distance_mm){
 }
 
 void translation(int x){
-    //// Fonction permettant de se déplacer d'une distance de x mm
-    // Conversion de mm à pas, les valeurs négatives sont supportées par la fonction 
-    int N = convert_dist_pas(x);
-    Serial.print("Nombre de pas en translation: ")
-    Serial.println(N); 
-    
-    // Déclaration du nb de pas à faire au moteur 
-    moteur_G.move(N); 
-    moteur_D.move(-N);     // Un des moteurs n'est pas dans le même sens physique, d'où la valeur <0 pour préserver une ligne droite 
+  //// Fonction permettant de se déplacer d'une distance de x mm
+  // Conversion de mm à pas, les valeurs négatives sont supportées par la fonction 
+  int N = convert_dist_pas(x);
+  Serial.print("Nombre de pas en translation: ");
+  Serial.println(N); 
   
-    // Commencement du déplacement est indiqué par la lumière verte 
-    digitalWrite(led_verte, HIGH); 
+  // Déclaration du nb de pas à faire au moteur 
+  moteur_G.move(N); 
+  moteur_D.move(-N);     // Un des moteurs n'est pas dans le même sens physique, d'où la valeur <0 pour préserver une ligne droite 
 
-    // La méthode run doit être appellée en continu jusqu'à qu'on arrive à destination
-    while (moteur_D.distanceToGo() != 0){ // distanceToGo donne le nb de pas restants avant de se rendre à notre objectif 
-      moteur_G.run();
-      moteur_D.run();
-    }
-    digitalWrite(led_verte, LOW);   // on éteint la lumière pour signifier qu'on a fini le mouvement 
+  // Commencement du déplacement est indiqué par la lumière verte 
+  digitalWrite(led_verte, HIGH); 
+
+  // La méthode run doit être appellée en continu jusqu'à qu'on arrive à destination
+  while (moteur_D.distanceToGo() != 0){ // distanceToGo donne le nb de pas restants avant de se rendre à notre objectif 
+    moteur_G.run();
+    moteur_D.run();
+  }
+  digitalWrite(led_verte, LOW);   // on éteint la lumière pour signifier qu'on a fini le mouvement 
 }
 
-void turn(int theta){
-    //// Fonction permettant de tourner sur place
-    // Conversion de l'angle donné à un nombre de pas 
-    int N = 5000; ///////////////////////////////////////////////////////////TODO: ajouter maths pour faire la conversion 
-    // Déclaration du nb de pas à faire et activation de ceux-ci jusqu'à que ce soit atteint 
-    moteur_G.move(N); 
-    moteur_D.move(N); 
-    int distance_left{10}; 
-    while (moteur_D.distanceToGo() != 0){
-      moteur_G.run();
-      moteur_D.run();
-    }
+void turn(float theta, int time_for_turn){
+  //// Fonction permettant de tourner 
+  // 'theta': angle position finale [deg] positif si va de l'est vers le nord et négatif s'il va de ouest vers le nord. 
+  // 'primary_wheel'--> roue tournant le plus vite --> base_stepper_speed 
+  // 'secondary_wheel'--> roue tournant le plus lentement / la plus proche de l'axe de rotation
+  // 'time_for_turn' --> temps alloué pour la rotation
+  theta = theta*3.14159/180; 
+  float secondary_wheel_speed = base_stepper_speed - ((d_entre_roues*theta)/(rayon_roue*time_for_turn));
+  if (theta<0) { // on veut tourner 'à gauche', ouest vers nord 
+    moteur_G.setMaxSpeed(base_stepper_speed); 
+    moteur_D.setMaxSpeed(secondary_wheel_speed); 
+  }
+  else { // on assume que notre code n'enverra pas de theta = 0
+    moteur_D.setMaxSpeed(base_stepper_speed); 
+    moteur_G.setMaxSpeed(secondary_wheel_speed); 
+  }
+
+  Serial.print("Début d'un tour avec base_speed "); Serial.print(base_stepper_speed); Serial.print(" ; secondary_speed: "); Serial.println(secondary_wheel_speed); 
+  unsigned long time_for_turn_ms = time_for_turn*1000; 
+  unsigned long start_timer = millis(); 
+  while ((millis()-start_timer)<time_for_turn_ms){
+    moteur_G.runSpeed(); 
+    moteur_D.runSpeed(); 
+  }
+  Serial.println("Tour fini"); 
 }

@@ -6,7 +6,11 @@ void wait_for_button(){
   digitalWrite(led_rouge, HIGH);    // Lumière rouge allumée, toutes les autres éteintes en attendant 
   digitalWrite(led_jaune, LOW); 
   digitalWrite(led_verte, LOW); 
-  while (digitalRead(button)!=0){}  // Ne rien faire pendant que le bouton n'est pas appuyé
+  Serial.println("En attente du bouton"); 
+  while (digitalRead(button)!=0){
+
+  }  // Ne rien faire pendant que le bouton n'est pas appuyé
+  Serial.println("Attente finie"); 
   digitalWrite(led_rouge, LOW);     // On éteint la lumière rouge pour signaler que le temps d'attente est fini 
 }
 
