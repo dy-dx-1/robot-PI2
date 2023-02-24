@@ -1,4 +1,4 @@
-/// Code central qui gère toute la logique des opérations
+/// Code principal qui gère toute la logique des opérations
 
 // Importation des modules
 #include "setup.h" // inclut en premier afin que les constantes globales entrent dans le scope général tout de suite  

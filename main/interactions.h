@@ -3,19 +3,17 @@
 
 void wait_for_button(){
   //// Pause le programme en attendant qu'on appuie sur le bouton de démarrage 
-  digitalWrite(led_rouge, HIGH); 
+  digitalWrite(led_rouge, HIGH);    // Lumière rouge allumée, toutes les autres éteintes en attendant 
   digitalWrite(led_jaune, LOW); 
   digitalWrite(led_verte, LOW); 
-  while (digitalRead(button)!=0){ // Pendant que le bouton n'est pas appuyé
-    Serial.println("Waiting for startup"); 
-  }
-  digitalWrite(led_rouge, LOW); 
-  digitalWrite(led_verte, HIGH); 
+  while (digitalRead(button)!=0){}  // Ne rien faire pendant que le bouton n'est pas appuyé
+  digitalWrite(led_rouge, LOW);     // On éteint la lumière rouge pour signaler que le temps d'attente est fini 
 }
 
 void blink_led(String couleur){
+  //// Clignote une des leds du prototype 
   int led_pin{};
-  int dtime = 500;  
+  int dtime = 500;                  // Période du clignotage en ms 
   if (couleur == "rouge"){
     led_pin = led_rouge; 
   }
