@@ -1,10 +1,10 @@
 ////// Fonctions associées au déplacement du robot 
 
 #include <AccelStepper.h>
-const int base_stepper_speed = 400; 
-const float stepper_accel = 200.0; 
-const int rayon_roue = 30; // rayon des roues motrices en mm 
-const int d_entre_roues = 100; // distance entre les roues motrices en mm //////////////////////////// À UPDATE!!!!!!!!!!!!!!!!!!!!!
+const int base_stepper_speed = 500; // en steps/s 
+const float stepper_accel = 400; 
+const int rayon_roue = 33; // rayon des roues motrices en mm 
+const int d_entre_roues = 132; // distance entre les roues motrices en mm //////////////////////////// À UPDATE!!!!!!!!!!!!!!!!!!!!!
 
 // Création des objets représentant les steppers 
 AccelStepper moteur_G(AccelStepper::FULL4WIRE, 11, 9, 10, 8);
@@ -12,9 +12,11 @@ AccelStepper moteur_D(AccelStepper::FULL4WIRE, 7, 5, 6, 4);
 
 void stepper_setup(){
   //// Fonction ajustant les paramètres de fonctionnement des moteurs 
-  moteur_G.setMaxSpeed(base_stepper_speed); //= à 11.7 rpm
+  moteur_G.setSpeed(base_stepper_speed); 
+  moteur_G.setSpeed(base_stepper_speed); 
+  moteur_G.setMaxSpeed(base_stepper_speed); 
   moteur_G.setAcceleration(stepper_accel);
-  moteur_D.setMaxSpeed(base_stepper_speed); //= à 11.7 rpm
+  moteur_D.setMaxSpeed(base_stepper_speed); 
   moteur_D.setAcceleration(stepper_accel);
 }
 
@@ -40,8 +42,8 @@ void translation(int x){
   Serial.println(N); 
   
   // Déclaration du nb de pas à faire au moteur 
-  moteur_G.move(N); 
-  moteur_D.move(-N);     // Un des moteurs n'est pas dans le même sens physique, d'où la valeur <0 pour préserver une ligne droite 
+  moteur_G.move(-N); 
+  moteur_D.move(N);     // Un des moteurs n'est pas dans le même sens physique, d'où la valeur <0 pour préserver une ligne droite 
 
   // Commencement du déplacement est indiqué par la lumière verte 
   digitalWrite(led_verte, HIGH); 
@@ -61,16 +63,17 @@ void turn(float theta, int time_for_turn){
   // 'secondary_wheel'--> roue tournant le plus lentement / la plus proche de l'axe de rotation
   // 'time_for_turn' --> temps alloué pour la rotation
   theta = theta*3.14159/180; 
-  float secondary_wheel_speed = base_stepper_speed - ((d_entre_roues*theta)/(rayon_roue*time_for_turn));
+  float secondary_wheel_speed = base_stepper_speed - (((abs(d_entre_roues*theta))/(rayon_roue*time_for_turn))*(1024/3.14159)); // rad/s converti à step/s
   if (theta<0) { // on veut tourner 'à gauche', ouest vers nord 
-    moteur_G.setMaxSpeed(base_stepper_speed); 
-    moteur_D.setMaxSpeed(secondary_wheel_speed); 
+    moteur_D.setSpeed(base_stepper_speed); 
+    moteur_G.setSpeed(-secondary_wheel_speed); 
   }
   else { // on assume que notre code n'enverra pas de theta = 0
-    moteur_D.setMaxSpeed(base_stepper_speed); 
-    moteur_G.setMaxSpeed(secondary_wheel_speed); 
+    moteur_D.setSpeed(secondary_wheel_speed); 
+    moteur_G.setSpeed(-base_stepper_speed); 
   }
 
+  digitalWrite(led_verte, HIGH); 
   Serial.print("Début d'un tour avec base_speed "); Serial.print(base_stepper_speed); Serial.print(" ; secondary_speed: "); Serial.println(secondary_wheel_speed); 
   unsigned long time_for_turn_ms = time_for_turn*1000; 
   unsigned long start_timer = millis(); 
@@ -78,5 +81,6 @@ void turn(float theta, int time_for_turn){
     moteur_G.runSpeed(); 
     moteur_D.runSpeed(); 
   }
+  digitalWrite(led_verte, LOW); 
   Serial.println("Tour fini"); 
 }

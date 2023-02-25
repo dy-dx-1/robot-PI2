@@ -9,7 +9,6 @@ void loop() {
   //// Logique centrale du code, distances en mm et angles en degrés 
   stepper_setup(); // préparation des steppers (accel et vitesse)
   wait_for_button(); 
-  translation(50); 
+  turn(45, 5); 
   blink_led("jaune"); 
-  translation(50); 
 }
