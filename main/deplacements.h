@@ -1,7 +1,7 @@
 ////// Fonctions associées au déplacement du robot 
 
 #include <AccelStepper.h>
-const int base_stepper_speed = 500; // en steps/s 
+const int base_stepper_speed = 988; // en steps/s 
 const float stepper_accel = 400; 
 const int rayon_roue = 33; // rayon des roues motrices en mm 
 const int d_entre_roues = 132; // distance entre les roues motrices en mm //////////////////////////// À UPDATE!!!!!!!!!!!!!!!!!!!!!
@@ -39,7 +39,8 @@ void translation(int x){
   // Conversion de mm à pas, les valeurs négatives sont supportées par la fonction 
   int N = convert_dist_pas(x);
   Serial.print("Nombre de pas en translation: ");
-  Serial.println(N); 
+  Serial.print(N); 
+  Serial.print(" ; Temps: "); Serial.println(N/base_stepper_speed);
   
   // Déclaration du nb de pas à faire au moteur 
   moteur_G.move(-N); 
@@ -81,6 +82,7 @@ void turn(float theta, int time_for_turn){
     moteur_G.runSpeed(); 
     moteur_D.runSpeed(); 
   }
+
   digitalWrite(led_verte, LOW); 
   Serial.println("Tour fini"); 
 }
