@@ -1,15 +1,5 @@
 ////// Fonctions associées au déplacement du robot 
 
-#include <AccelStepper.h>
-const int base_stepper_speed = 988; // en steps/s 
-const float stepper_accel = 400; 
-const int rayon_roue = 33; // rayon des roues motrices en mm 
-const int d_entre_roues = 132; // distance entre les roues motrices en mm //////////////////////////// À UPDATE!!!!!!!!!!!!!!!!!!!!!
-
-// Création des objets représentant les steppers 
-AccelStepper moteur_G(AccelStepper::FULL4WIRE, 11, 9, 10, 8);
-AccelStepper moteur_D(AccelStepper::FULL4WIRE, 7, 5, 6, 4);
-
 void stepper_setup(){
   //// Fonction ajustant les paramètres de fonctionnement des moteurs 
   moteur_G.setSpeed(base_stepper_speed); 
