@@ -1,15 +1,5 @@
 ////// Fonctions associées au déplacement du robot 
 
-void stepper_setup(){
-  //// Fonction ajustant les paramètres de fonctionnement des moteurs 
-  moteur_G.setSpeed(base_stepper_speed); 
-  moteur_G.setSpeed(base_stepper_speed); 
-  moteur_G.setMaxSpeed(base_stepper_speed); 
-  moteur_G.setAcceleration(stepper_accel);
-  moteur_D.setMaxSpeed(base_stepper_speed); 
-  moteur_D.setAcceleration(stepper_accel);
-}
-
 int convert_dist_pas(int distance_mm){
   //// Fonction qui converti une distance linéaire en mm à un nombre de pas équivalent pour nos steppers, en supposant un roulement sans glisser 
   if (distance_mm<0){

@@ -8,8 +8,8 @@ void wait_for_button(){
   digitalWrite(led_verte, LOW); 
   Serial.println("En attente du bouton"); 
   while (digitalRead(button)!=0){
-
-  }  // Ne rien faire pendant que le bouton n'est pas appuyé
+    // Ne rien faire pendant que le bouton n'est pas appuyé
+  }  
   Serial.println("Attente finie"); 
   digitalWrite(led_rouge, LOW);     // On éteint la lumière rouge pour signaler que le temps d'attente est fini 
 }
