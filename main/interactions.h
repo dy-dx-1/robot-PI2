@@ -10,6 +10,7 @@ void wait_for_button(){
   while (digitalRead(button)!=0){
     // Ne rien faire pendant que le bouton n'est pas appuyé
   }  
+  delay(100);   // Attente de 0.1s pour éviter des interférences de 'bounce' si on call cette fonction encore rapidement après 
   Serial.println("Attente finie"); 
   digitalWrite(led_rouge, LOW);     // On éteint la lumière rouge pour signaler que le temps d'attente est fini 
 }
