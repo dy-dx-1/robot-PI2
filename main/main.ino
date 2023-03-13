@@ -10,5 +10,5 @@
 void loop() { 
   //// Logique centrale du code, distances en mm et angles en degrés 
   wait_for_button(); 
-  translation(500); 
+  open_box(35); 
 }
