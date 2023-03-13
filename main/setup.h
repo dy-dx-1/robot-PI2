@@ -1,7 +1,7 @@
 //////Fichier déclarant toutes les constantes globales nécéssaires, ainsi que la fonction setup. 
 
 //// Importation des librairies nécéssaires 
-#include <Servo.h>
+#include <Servo.h> 
 #include <AccelStepper.h>
 
 //// Déclaration des constantes des moteurs 
