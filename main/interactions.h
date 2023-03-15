@@ -18,7 +18,7 @@ void wait_for_button(){
 void blink_led(String couleur){
   //// Clignote une des leds du prototype 
   int led_pin{};
-  int dtime = 500;                  // Période du clignotage en ms 
+  int dtime = 400;                  // Période du clignotage en ms 
   if (couleur == "rouge"){
     led_pin = led_rouge; 
   }
@@ -27,6 +27,9 @@ void blink_led(String couleur){
   }
   else if (couleur == "jaune"){
     led_pin = led_jaune; 
+  }
+  else if (couleur == "bleue"){
+    led_pin = led_bleue; 
   }
   else {
     Serial.println("COULEUR DE LED INTROUVABLE"); 

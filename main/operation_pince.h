@@ -21,4 +21,6 @@ void open_box(int width){
   // On considère qu'il n'y a pas de glissement entre la crémaillère et le pignon 
   int angle = (width / (diametre_pignon/2))*(180/3.14159); // angle en radians converti en degrés  
   Serial.print("Ouverture de la pince commencée: "); Serial.print(angle); Serial.println("degrés"); 
+  pignon.write(angle); // on considère qu'on a le range nécéssaire pour complèter l'ouverture 
+  Serial.println("Pince ouverte"); 
 }
