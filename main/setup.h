@@ -11,6 +11,7 @@
 
 //// Création de l'objet bluetooth
 Adafruit_BluefruitLE_UART ble(BLUEFRUIT_HWSERIAL_NAME, BLUEFRUIT_UART_MODE_PIN); 
+int comm_code = 0;  // est utilisé pour traduire les boutons appuyés à des actions sur l'arduino (voir main.ino) 
 
 //// Déclaration des constantes des moteurs 
 const int base_stepper_speed = 988; // en steps/s 

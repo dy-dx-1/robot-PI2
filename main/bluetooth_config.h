@@ -71,21 +71,24 @@ void start_bluetooth_connection(){
   Serial.println("******************************");
 }
 
-void listen_for_codes(){
+int listen_for_codes(){
   /* Wait for new data to arrive */
   uint8_t len = readPacket(&ble, BLE_READPACKET_TIMEOUT);
-  if (len == 0) return;
+  if (len == 0) return 0; // retour de 0 si on trouve rien 
 
   // Boutons
   if (packetbuffer[1] == 'B') {
     uint8_t buttnum = packetbuffer[2] - '0';
     boolean pressed = packetbuffer[3] - '0';
-    Serial.print ("Button "); Serial.print(buttnum);
+    int button_return = buttnum;  // le numéro du bouton qui sera retourné 
+    //Serial.print ("Button "); Serial.print(buttnum);
     if (pressed) {
-      Serial.println(" pressed");
+      //Serial.println(" pressed");
+      button_return = button_return + 10; // si un bouton est appuyé, on reçoit la valeur du bouton + 10 
     } else {
-      Serial.println(" released");
+      //Serial.println(" released");
     }
+    return button_return; 
   }
 
   // Couleur
