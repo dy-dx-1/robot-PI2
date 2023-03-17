@@ -1,8 +1,16 @@
 //////Fichier déclarant toutes les constantes globales nécéssaires, ainsi que la fonction setup. 
 
 //// Importation des librairies nécéssaires 
+#include <string.h> 
+#include "Adafruit_BLE.h"
+#include "Adafruit_BluefruitLE_UART.h"
+#include "bluetooth_config.h"
+
 #include <Servo.h> 
 #include <AccelStepper.h>
+
+//// Création de l'objet bluetooth
+Adafruit_BluefruitLE_UART ble(BLUEFRUIT_HWSERIAL_NAME, BLUEFRUIT_UART_MODE_PIN); 
 
 //// Déclaration des constantes des moteurs 
 const int base_stepper_speed = 988; // en steps/s 
@@ -27,6 +35,7 @@ const int led_bleue = 52;
 const int servo_pin = 12; 
 
 void setup() {
+  Serial.begin(115200); 
   pignon.attach(servo_pin);      // création d'un lien entre le servo et le pin d'info PWM 
 
   pinMode(led_rouge, OUTPUT);
@@ -37,8 +46,8 @@ void setup() {
 
   void stepper_setup(); 
   stepper_setup(); // Initialisation des vitesses et accélérations des steppers 
-
-  Serial.begin(9600); 
+  
+  start_bluetooth_connection(); 
 }
 
 void stepper_setup(){
