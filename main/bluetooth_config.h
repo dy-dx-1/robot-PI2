@@ -39,9 +39,7 @@ void start_bluetooth_connection(){
   {
     error(F("Couldn't find Bluefruit, make sure it's in CoMmanD mode & check wiring?"));
   }
-  Serial.println("Initialisation complète");
-
-  if ( FACTORYRESET_ENABLE )// Si on veut faire un factory reset
+  if (FACTORYRESET_ENABLE)// Si on veut faire un factory reset
   {
     Serial.println(F("Factory reset demande"));
     if ( ! ble.factoryReset() ){error(F("Couldn't factory reset"));}
@@ -50,25 +48,21 @@ void start_bluetooth_connection(){
   ble.echo(false); // Déactivation de la commande echo de bluefruit 
   ble.verbose(false);  // On n'a plus besoin d'info pour debug 
 
-  // On en attente de la connection 
+  // On se met en attente jusqu'à que qqun se connecte 
   Serial.println("En attente de connection"); 
   while (! ble.isConnected()) {
     delay(500);
   }
-  Serial.println("Connection complete!"); 
-  Serial.println("******************************");
-
-  // LED Activity command is only supported from 0.6.6
-  if ( ble.isVersionAtLeast(MINIMUM_FIRMWARE_VERSION) )
-  {
-    // Change Mode LED Activity
-    Serial.println("Mode choisi pour le LED indicateur: " MODE_LED_BEHAVIOUR);
-    ble.sendCommandCheckOK("AT+HWModeLED=" MODE_LED_BEHAVIOUR);
-  }
-
+  // On setup le mode de communication du LED bleu du module 
+  ble.sendCommandCheckOK("AT+HWModeLED=" MODE_LED_BEHAVIOUR);
+  
   // Set Bluefruit to DATA mode
   Serial.println("Changement en mode DATA");
   ble.setMode(BLUEFRUIT_MODE_DATA);
+
+  // Si on arrive ici, tout s'est bien passé 
+  Serial.println("******************************");
+  Serial.println("Connection complete!"); 
   Serial.println("******************************");
 }
 
