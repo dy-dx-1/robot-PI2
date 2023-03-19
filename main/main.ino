@@ -13,6 +13,7 @@ void dispatch(int current_num) {
   switch (current_num){
     case 0:
       // Rien ne se passe, car pas de nouvelle information 
+      
       break; 
     case 1:
       break; 
@@ -31,8 +32,10 @@ void dispatch(int current_num) {
       translation(-distance_translation); 
       break; 
     case 7:
+      turn(45, 5); // Need to do tests and fix parameters 
       break; 
     case 8:
+      turn(-45, 5); // Need to do tests and fix parameters 
       break; 
   }
 }
