@@ -87,45 +87,39 @@ int listen_for_codes(){
       //Serial.println(" pressed");
       button_return = button_return + 10; // si un bouton est appuyé, on reçoit la valeur du bouton + 10 
     } else {
-      //Serial.println(" released");
+      // Si le bouton est relâché, on retourne juste la valeur du bouton 
     }
     return button_return; 
   }
 
   // Couleur
   if (packetbuffer[1] == 'C') {
-    Serial.println("Couleur reçue");
     distance_translation = 50;
-    Serial.print("Nouvelle valeur en translation: "); Serial.print(distance_translation); Serial.println(" mm"); 
-    }
-  // Location GPS
-  if (packetbuffer[1] == 'L') {
-    Serial.println("Coordonnée gps reçue.");
-    distance_translation = 1000;
-    Serial.print("Nouvelle valeur en translation: "); Serial.print(distance_translation); Serial.println(" mm"); 
-    }
-  // Accelerometre
-  if (packetbuffer[1] == 'A') {
-    Serial.println("Donnée d'accélèromètre reçue");
-    distance_translation = 400;
-    Serial.print("Nouvelle valeur en translation: "); Serial.print(distance_translation); Serial.println(" mm"); 
-    }
-  // Magnetometre
-  if (packetbuffer[1] == 'M') {
-    Serial.println("Donnée du magnétomètre reçue");
-    distance_translation = 800;
-    Serial.print("Nouvelle valeur en translation: "); Serial.print(distance_translation); Serial.println(" mm"); 
-    }
-  // Gyroscope
-  if (packetbuffer[1] == 'G') {
-    Serial.println("Gyroscope");
-    distance_translation = 600;
     Serial.print("Nouvelle valeur en translation: "); Serial.print(distance_translation); Serial.println(" mm"); 
     }
   // Quaternions
   if (packetbuffer[1] == 'Q') {
-    Serial.println("Quaternion reçu");
     distance_translation = 200;
+    Serial.print("Nouvelle valeur en translation: "); Serial.print(distance_translation); Serial.println(" mm"); 
+    }
+  // Accelerometre
+  if (packetbuffer[1] == 'A') {
+    distance_translation = 400;
+    Serial.print("Nouvelle valeur en translation: "); Serial.print(distance_translation); Serial.println(" mm"); 
+    }
+  // Gyroscope
+  if (packetbuffer[1] == 'G') {
+    distance_translation = 600;
+    Serial.print("Nouvelle valeur en translation: "); Serial.print(distance_translation); Serial.println(" mm"); 
+    }
+  // Magnetometre
+  if (packetbuffer[1] == 'M') {
+    distance_translation = 800;
+    Serial.print("Nouvelle valeur en translation: "); Serial.print(distance_translation); Serial.println(" mm"); 
+    }
+  // Location GPS
+  if (packetbuffer[1] == 'L') {
+    distance_translation = 1000;
     Serial.print("Nouvelle valeur en translation: "); Serial.print(distance_translation); Serial.println(" mm"); 
     }
 }
