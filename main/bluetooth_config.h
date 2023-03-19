@@ -16,6 +16,7 @@
 
 // Forward declaration de l'objet ble de type Adafruit_BluefruitLE_UART afin de définir les fonctions dans ce fichier 
 extern Adafruit_BluefruitLE_UART ble; 
+extern int distance_translation; 
 
 // Fonction qui aide à afficher les erreurs 
 void error(const __FlashStringHelper*err) {
@@ -42,7 +43,7 @@ void start_bluetooth_connection(){
 
   if ( FACTORYRESET_ENABLE )// Si on veut faire un factory reset
   {
-    Serial.println(F("Factory reset demandé"));
+    Serial.println(F("Factory reset demande"));
     if ( ! ble.factoryReset() ){error(F("Couldn't factory reset"));}
   }
 
@@ -50,11 +51,11 @@ void start_bluetooth_connection(){
   ble.verbose(false);  // On n'a plus besoin d'info pour debug 
 
   // On en attente de la connection 
-  Serial.println("Début de l'attente de la connection"); 
+  Serial.println("En attente de connection"); 
   while (! ble.isConnected()) {
     delay(500);
   }
-  Serial.println("Connection complète!"); 
+  Serial.println("Connection complete!"); 
   Serial.println("******************************");
 
   // LED Activity command is only supported from 0.6.6
@@ -92,15 +93,39 @@ int listen_for_codes(){
   }
 
   // Couleur
-  if (packetbuffer[1] == 'C') {Serial.println("Couleur reçue");}
+  if (packetbuffer[1] == 'C') {
+    Serial.println("Couleur reçue");
+    distance_translation = 50;
+    Serial.print("Nouvelle valeur en translation: "); Serial.print(distance_translation); Serial.println(" mm"); 
+    }
   // Location GPS
-  if (packetbuffer[1] == 'L') {Serial.println("Coordonnée gps reçue.");}
+  if (packetbuffer[1] == 'L') {
+    Serial.println("Coordonnée gps reçue.");
+    distance_translation = 1000;
+    Serial.print("Nouvelle valeur en translation: "); Serial.print(distance_translation); Serial.println(" mm"); 
+    }
   // Accelerometre
-  if (packetbuffer[1] == 'A') {Serial.println("Donnée d'accélèromètre reçue");}
+  if (packetbuffer[1] == 'A') {
+    Serial.println("Donnée d'accélèromètre reçue");
+    distance_translation = 400;
+    Serial.print("Nouvelle valeur en translation: "); Serial.print(distance_translation); Serial.println(" mm"); 
+    }
   // Magnetometre
-  if (packetbuffer[1] == 'M') {Serial.println("Donnée du magnétomètre reçue");}
+  if (packetbuffer[1] == 'M') {
+    Serial.println("Donnée du magnétomètre reçue");
+    distance_translation = 800;
+    Serial.print("Nouvelle valeur en translation: "); Serial.print(distance_translation); Serial.println(" mm"); 
+    }
   // Gyroscope
-  if (packetbuffer[1] == 'G') {Serial.println("Gyroscope");}
+  if (packetbuffer[1] == 'G') {
+    Serial.println("Gyroscope");
+    distance_translation = 600;
+    Serial.print("Nouvelle valeur en translation: "); Serial.print(distance_translation); Serial.println(" mm"); 
+    }
   // Quaternions
-  if (packetbuffer[1] == 'Q') {Serial.println("Quaternion reçu");}
+  if (packetbuffer[1] == 'Q') {
+    Serial.println("Quaternion reçu");
+    distance_translation = 200;
+    Serial.print("Nouvelle valeur en translation: "); Serial.print(distance_translation); Serial.println(" mm"); 
+    }
 }

@@ -18,6 +18,9 @@ void translation(int x){
   //// Fonction permettant de se déplacer d'une distance de x mm
   // Conversion de mm à pas, les valeurs négatives sont supportées par la fonction 
   int N = convert_dist_pas(x);
+  Serial.print("Distance demandee: "); 
+  Serial.print(x); 
+  Serial.print(" mm ; "); 
   Serial.print("Nombre de pas en translation: ");
   Serial.print(N); 
   Serial.print(" ; Temps: "); Serial.println(N/base_stepper_speed);

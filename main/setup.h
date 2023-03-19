@@ -11,7 +11,6 @@
 
 //// Création de l'objet bluetooth
 Adafruit_BluefruitLE_UART ble(BLUEFRUIT_HWSERIAL_NAME, BLUEFRUIT_UART_MODE_PIN); 
-int comm_code = 0;  // est utilisé pour traduire les boutons appuyés à des actions sur l'arduino (voir main.ino) 
 
 //// Déclaration des constantes des moteurs 
 const int base_stepper_speed = 988; // en steps/s 
@@ -20,7 +19,7 @@ const int rayon_roue = 33;          // rayon des roues motrices en mm
 const int d_entre_roues = 132;      // distance entre les roues motrices en mm 
 
 const int diametre_pignon = 24;     // Diamètre du pignon du servo de la boîte en mm 
-
+int distance_translation = 100; // Distance en translation fixe de base [mm], peut être modifié avec l'appli (voir deplacements.h)
 // Création des objets représentant les moteurs 
 AccelStepper moteur_G(AccelStepper::FULL4WIRE, 11, 9, 10, 8);
 AccelStepper moteur_D(AccelStepper::FULL4WIRE, 7, 5, 6, 4);
