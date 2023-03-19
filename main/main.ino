@@ -13,15 +13,19 @@ void dispatch(int current_num) {
   switch (current_num){
     case 0:
       // Rien ne se passe, car pas de nouvelle information 
-      
       break; 
     case 1:
+      // Monter la boîte 
+      lift_box(true);
       break; 
     case 2:
+      lift_box(false); 
       break; 
     case 3:
+      pignon.write(90); 
       break; 
     case 4:
+      pignon.write(180); 
       break; 
     case 5:
       // Translation vers l'avant, distance_translation peut être modifié dans bluetooth_config.h
@@ -44,5 +48,4 @@ void loop() {
   //// Logique centrale du code, distances en mm et angles en degrés 
   comm_code = listen_for_codes(); 
   dispatch(comm_code); 
-
 }
