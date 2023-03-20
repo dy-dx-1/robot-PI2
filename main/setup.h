@@ -22,9 +22,9 @@ int distance_translation = 100; // Distance en translation fixe de base [mm], pe
 
 // Création des objets représentant les moteurs 
 AccelStepper moteur_G(AccelStepper::FULL4WIRE, 11, 9, 10, 8);
-AccelStepper moteur_D(AccelStepper::FULL4WIRE, 7, 5, 6, 4);
-const int moteur_lift = 35; // Pin signal du moteur DC de la pince 
-//TODO: Ajouter pins de direction pour le moteur DC 
+AccelStepper moteur_D(AccelStepper::FULL4WIRE, 7, 5, 6, 4); 
+const int lift_dir1 = 22; 
+const int lift_dir2 = 24; // Pins de direction du moteur DC  
 Servo pignon; 
 
 //// Déclaration des constantes associées aux pins 
@@ -39,7 +39,8 @@ void setup() {
   Serial.begin(115200); 
   pignon.attach(servo_pin);      // création d'un lien entre le servo et le pin d'info PWM 
   pignon.write(0);            // On place le servo à sa position de départ 
-  pinMode(moteur_lift, OUTPUT); 
+  pinMode(lift_dir1, OUTPUT); 
+  pinMode(lift_dir2, OUTPUT); 
 
   pinMode(led_rouge, OUTPUT);
   pinMode(led_jaune, OUTPUT);
@@ -49,6 +50,8 @@ void setup() {
 
   void stepper_setup(); // Forward declaration de stepper_setup pour le mettre en bas de setup() 
   stepper_setup(); // Initialisation des vitesses et accélérations des steppers 
+  digitalWrite(lift_dir1, LOW); // on s'assure que le moteur DC est figé 
+  digitalWrite(lift_dir2, LOW); 
   
   start_bluetooth_connection(); 
 }

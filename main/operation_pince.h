@@ -4,18 +4,21 @@ void lift_box(bool going_up){
   //// Indique au moteur DC de la pince s'il doit monter ou descendre et effectue l'action jusqu'à que l'endstop soit atteint 
   Serial.println("Mouvement en translation verticale commence"); 
   if (going_up){
-    // TODO: Ajouter set des pins (ou whatever méthode) pour indiquer direction
+    digitalWrite(lift_dir1, HIGH); 
+    digitalWrite(lift_dir2, LOW); 
   }
   else{ 
-    // TODO: Ajouter set des pins (ou whatever méthode) pour indiquer direction
+    digitalWrite(lift_dir2, HIGH); 
+    digitalWrite(lift_dir1, LOW); 
   }
-  digitalWrite(moteur_lift, HIGH); 
   // TODO: ajouter condition d'arrêt, pour l'instant ce sera juste un timer de 5s pour démontrer 
   unsigned long t1 = millis();
   while ((millis()-t1)<=3000){
     //wait 
   }
-  digitalWrite(moteur_lift, LOW); 
+  // brake 
+  digitalWrite(lift_dir1, LOW); 
+  digitalWrite(lift_dir2, LOW);
   Serial.println("Mouvement en translation verticale fini"); 
 }
 
