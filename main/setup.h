@@ -1,7 +1,6 @@
 //////Fichier déclarant toutes les constantes globales nécéssaires, ainsi que la fonction setup. 
 
 //// Importation des librairies nécéssaires 
-#include <string.h> 
 #include "Adafruit_BLE.h"
 #include "Adafruit_BluefruitLE_UART.h"
 #include "bluetooth_config.h"

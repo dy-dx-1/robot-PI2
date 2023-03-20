@@ -38,7 +38,7 @@ void start_bluetooth_connection(){
   Serial.println("Initialisation du module bluetooth"); 
   if ( !ble.begin(VERBOSE_MODE) )
   {
-    error(F("Couldn't find Bluefruit, make sure it's in CoMmanD mode & check wiring?"));
+    error(F("Module bluetooth introuvable! Verifiez qu'il est bien connecté et en mode CMD."));
   }
   if (FACTORYRESET_ENABLE)// Si on veut faire un factory reset
   {
