@@ -29,6 +29,8 @@ Servo pignon;
 
 //// Déclaration des constantes associées aux pins 
 const int button = 53;          // bouton de démarrage 
+const int endstop_bottom = 31; 
+const int endstop_top = 33; 
 const int led_rouge = 46;   
 const int led_jaune = 48;   
 const int led_verte = 50;  
@@ -47,6 +49,8 @@ void setup() {
   pinMode(led_verte, OUTPUT);
   pinMode(led_bleue, OUTPUT); 
   pinMode(button, INPUT_PULLUP);  // utilisation d'un pullup resistor pour façiliter l'utilisation du bouton
+  pinMode(endstop_bottom, INPUT_PULLUP); 
+  pinMode(endstop_top, INPUT_PULLUP); 
 
   void stepper_setup(); // Forward declaration de stepper_setup pour le mettre en bas de setup() 
   stepper_setup(); // Initialisation des vitesses et accélérations des steppers 
