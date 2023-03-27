@@ -13,7 +13,7 @@ void lift_box(bool going_up){
   }
   // TODO: ajouter condition d'arrêt, pour l'instant ce sera juste un timer de 5s pour démontrer 
   unsigned long t1 = millis();
-  while ((millis()-t1)<=3000){
+  while ((millis()-t1)<=2000){
     //wait 
   }
   // brake 

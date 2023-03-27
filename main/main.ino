@@ -45,8 +45,7 @@ void dispatch(int current_num) {
 }
 
 void loop() { 
-  //// Logique centrale du code, distances en mm et angles en degrés 
-  //wait_for_button(button); 
+  //// Logique centrale du code, distances en mm et angles en degrés  
   comm_code = listen_for_codes(); 
-  dispatch(comm_code); 
+  dispatch(comm_code);
 }

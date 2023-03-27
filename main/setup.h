@@ -57,6 +57,8 @@ void setup() {
   digitalWrite(lift_dir1, LOW); // on s'assure que le moteur DC est figé 
   digitalWrite(lift_dir2, LOW); 
   
+  void wait_for_button(int button); //défini dans intéractions 
+  wait_for_button(button); 
   start_bluetooth_connection(); 
 }
 
