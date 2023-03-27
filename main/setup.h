@@ -59,6 +59,7 @@ void setup() {
   
   void wait_for_button(int button); //défini dans intéractions 
   wait_for_button(button); 
+  digitalWrite(led_jaune, HIGH); // pour signifier qu'on est en attente de connection 
   start_bluetooth_connection(); 
 }
 

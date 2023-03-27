@@ -17,7 +17,8 @@
 // Forward declaration de l'objet ble de type Adafruit_BluefruitLE_UART afin de définir les fonctions dans ce fichier 
 extern Adafruit_BluefruitLE_UART ble; 
 extern int distance_translation; // défini plus tard dans setup 
-extern const int led_bleue; // défini plus tard dans setup 
+extern const int led_bleue; // défini plus tard dans setup
+extern const int led_jaune;  
 
 // Fonction qui aide à afficher les erreurs 
 void error(const __FlashStringHelper*err) {
@@ -66,6 +67,7 @@ void start_bluetooth_connection(){
   Serial.println("Connection complete!"); 
   Serial.println("******************************");
   digitalWrite(led_bleue, HIGH); 
+  digitalWrite(led_jaune, LOW); // on est connectés 
 }
 
 int listen_for_codes(){

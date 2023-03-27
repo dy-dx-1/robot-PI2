@@ -22,10 +22,10 @@ void dispatch(int current_num) {
       lift_box(false); 
       break; 
     case 3:
-      pignon.write(90); 
+      pignon.write(180); 
       break; 
     case 4:
-      pignon.write(180); 
+      pignon.write(0); 
       break; 
     case 5:
       // Translation vers l'avant, distance_translation peut être modifié dans bluetooth_config.h
@@ -36,10 +36,10 @@ void dispatch(int current_num) {
       translation(-distance_translation); 
       break; 
     case 7:
-      turn(45, 5); // Need to do tests and fix parameters 
+      turn(120, 5); // Need to do tests and fix parameters 
       break; 
     case 8:
-      turn(-45, 5); // Need to do tests and fix parameters 
+      turn(-120, 5); // Need to do tests and fix parameters 
       break; 
   }
 }
