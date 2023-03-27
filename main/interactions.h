@@ -1,13 +1,13 @@
 ////// Fichier regroupant les fonctions nécessaires à l'intéraction entre la voiture et les utilisateurs 
 ////// ex: clignoter une lumière, démarrer le prototype, etc... 
 
-void wait_for_button(){
+void wait_for_button(int switch_button){
   //// Pause le programme en attendant qu'on appuie sur le bouton de démarrage 
   digitalWrite(led_rouge, HIGH);    // Lumière rouge allumée, toutes les autres éteintes en attendant 
   digitalWrite(led_jaune, LOW); 
   digitalWrite(led_verte, LOW); 
   Serial.println("En attente du bouton"); 
-  while (digitalRead(button)!=0){
+  while (digitalRead(switch_button)!=0){
     // Ne rien faire pendant que le bouton n'est pas appuyé
   }  
   delay(100);   // Attente de 0.1s pour éviter des interférences de 'bounce' si on call cette fonction encore rapidement après 

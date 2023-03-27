@@ -1,7 +1,6 @@
 //////Fichier déclarant toutes les constantes globales nécéssaires, ainsi que la fonction setup. 
 
 //// Importation des librairies nécéssaires 
-#include <string.h> 
 #include "Adafruit_BLE.h"
 #include "Adafruit_BluefruitLE_UART.h"
 #include "bluetooth_config.h"
@@ -20,14 +19,25 @@ const int d_entre_roues = 132;      // distance entre les roues motrices en mm
 
 const int diametre_pignon = 24;     // Diamètre du pignon du servo de la boîte en mm 
 int distance_translation = 100; // Distance en translation fixe de base [mm], peut être modifié avec l'appli (voir deplacements.h)
+
 // Création des objets représentant les moteurs 
 AccelStepper moteur_G(AccelStepper::FULL4WIRE, 11, 9, 10, 8);
-AccelStepper moteur_D(AccelStepper::FULL4WIRE, 7, 5, 6, 4);
-AccelStepper moteur_lift(AccelStepper::FULL4WIRE, 29, 25, 27, 23); // moteur pour la translation verticale de la pince
+AccelStepper moteur_D(AccelStepper::FULL4WIRE, 7, 5, 6, 4); 
+const int mot_dir1 = 22; 
+const int mot_dir2 = 24; // Pins de direction du moteur DC
+const int mot_dir3 = 43; 
+const int mot_dir4 = 45; 
+const int m1 = 3;  
+const int m2 = 2;  
 Servo pignon; 
+
+const int lift_dir1 = 26; 
+const int lift_dir2 = 28; //////////////PLACEHOLDERS!!! TO PROPERLY ASSOCIATE 
 
 //// Déclaration des constantes associées aux pins 
 const int button = 53;          // bouton de démarrage 
+const int endstop_bottom = 31; 
+const int endstop_top = 33; 
 const int led_rouge = 46;   
 const int led_jaune = 48;   
 const int led_verte = 50;  
@@ -37,16 +47,30 @@ const int servo_pin = 12;
 void setup() {
   Serial.begin(115200); 
   pignon.attach(servo_pin);      // création d'un lien entre le servo et le pin d'info PWM 
+  pignon.write(0);            // On place le servo à sa position de départ 
+  pinMode(mot_dir1, OUTPUT); 
+  pinMode(mot_dir2, OUTPUT); 
+  pinMode(mot_dir3, OUTPUT); 
+  pinMode(mot_dir4, OUTPUT); 
+  pinMode(m1, OUTPUT); 
+  pinMode(m2, OUTPUT); 
 
   pinMode(led_rouge, OUTPUT);
   pinMode(led_jaune, OUTPUT);
   pinMode(led_verte, OUTPUT);
   pinMode(led_bleue, OUTPUT); 
   pinMode(button, INPUT_PULLUP);  // utilisation d'un pullup resistor pour façiliter l'utilisation du bouton
+  pinMode(endstop_bottom, INPUT_PULLUP); 
+  pinMode(endstop_top, INPUT_PULLUP); 
 
-  void stepper_setup(); 
+  void stepper_setup(); // Forward declaration de stepper_setup pour le mettre en bas de setup() 
   stepper_setup(); // Initialisation des vitesses et accélérations des steppers 
+  digitalWrite(lift_dir1, LOW); // on s'assure que le moteur DC est figé 
+  digitalWrite(lift_dir2, LOW); 
   
+  void wait_for_button(int button); //défini dans intéractions 
+  wait_for_button(button); 
+  digitalWrite(led_jaune, HIGH); // pour signifier qu'on est en attente de connection 
   start_bluetooth_connection(); 
 }
 
@@ -62,8 +86,4 @@ void stepper_setup(){
   moteur_D.setSpeed(base_stepper_speed); 
   moteur_D.setMaxSpeed(base_stepper_speed); 
   moteur_D.setAcceleration(stepper_accel);
-
-  moteur_lift.setSpeed(base_stepper_speed); 
-  moteur_lift.setMaxSpeed(base_stepper_speed); 
-  moteur_lift.setAcceleration(base_stepper_speed); 
 }

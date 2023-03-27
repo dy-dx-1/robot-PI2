@@ -4,7 +4,7 @@
 #include "setup.h"        // est en premier afin que les constantes globales entrent dans le scope général tout de suite 
 #include "interactions.h"
 #include "deplacements.h"
-#include "operation_pince.h"
+////////////////////////////////////////////#include "operation_pince.h"
 
 int comm_code = 0;  // est utilisé pour traduire les boutons appuyés à des actions sur l'arduino 
 int last_significant_command = 0; // permet de tenir compte de la dernière commande passée (par exemple quand on appuie sur un bouton)
@@ -18,6 +18,7 @@ void dispatch(int current_num) {
     // Tout d'abord on considère les cas où on a relâché un bouton de déplacement, donc on veut juste retourner à l'état d'attente 
     // les valeurs des boutons de déplacement sont de 5 à 8 lorsque il sont relâchés  
     if ((last_significant_command-10)<0 && last_significant_command>=5){
+      stop_translation(); 
       last_significant_command = 0; // indication de ne plus considèrer qu'on a intéragi avec un bouton 
     }
     // Maintenant on considère le cas où on a appuyé sur un bouton de déplacement, donc on veut call l'action de déplacement 
@@ -31,8 +32,10 @@ void dispatch(int current_num) {
           translation(-distance_translation); 
           break; 
         case 17:
+          turn(true); 
           break; 
         case 18:
+          turn(false); 
           break; 
       }
       // Notez qu'il n'y a pas de réassignation de last_significant_command, étant donné qu'on veut retourner ici jusqu'à que le bouton soit 
