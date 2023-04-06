@@ -4,6 +4,7 @@
 #include "setup.h"        // est en premier afin que les constantes globales entrent dans le scope général tout de suite 
 #include "interactions.h"
 #include "deplacements.h"
+#include "operation_pince.h"
 ////////////////////////////////////////////#include "operation_pince.h"
 
 int comm_code = 0;  // est utilisé pour traduire les boutons appuyés à des actions sur l'arduino 
@@ -26,10 +27,10 @@ void dispatch(int current_num) {
     else if ((last_significant_command-10)>0 && last_significant_command>=15){
       switch (last_significant_command){
         case 15: 
-          translation(distance_translation); 
+          translation(-distance_translation); 
           break; 
         case 16:
-          translation(-distance_translation); 
+          translation(distance_translation); 
           break; 
         case 17:
           turn(true); 
@@ -47,12 +48,16 @@ void dispatch(int current_num) {
     else if ((last_significant_command-10)<0 && last_significant_command<=5){
       switch (last_significant_command){ 
         case 11:
+        lift_box(); 
           break;
         case 12:
+        lower_box(); 
           break; 
         case 13:
+          pignon.write(180); 
           break;
         case 14:
+        pignon.write(0); 
           break; 
       }
       last_significant_command = 0;  // tel que mentionné plus tôt, on on peut maintenant ignoré qu'on a appuyé sur un bouton 

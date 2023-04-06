@@ -21,8 +21,8 @@ const int diametre_pignon = 24;     // Diamètre du pignon du servo de la boîte
 int distance_translation = 100; // Distance en translation fixe de base [mm], peut être modifié avec l'appli (voir deplacements.h)
 
 // Création des objets représentant les moteurs 
-AccelStepper moteur_G(AccelStepper::FULL4WIRE, 11, 9, 10, 8);
-AccelStepper moteur_D(AccelStepper::FULL4WIRE, 7, 5, 6, 4); 
+AccelStepper moteur_G(AccelStepper::FULL4WIRE, 11, 9, 10, 46);
+AccelStepper moteur_D(AccelStepper::FULL4WIRE, 48, 5, 50, 4); 
 const int mot_dir1 = 22; 
 const int mot_dir2 = 24; // Pins de direction du moteur DC
 const int mot_dir3 = 43; 
@@ -31,6 +31,7 @@ const int m1 = 3;
 const int m2 = 2;  
 Servo pignon; 
 
+const int m_lift = 9; 
 const int lift_dir1 = 26; 
 const int lift_dir2 = 28; //////////////PLACEHOLDERS!!! TO PROPERLY ASSOCIATE 
 
@@ -38,10 +39,10 @@ const int lift_dir2 = 28; //////////////PLACEHOLDERS!!! TO PROPERLY ASSOCIATE
 const int button = 53;          // bouton de démarrage 
 const int endstop_bottom = 31; 
 const int endstop_top = 33; 
-const int led_rouge = 46;   
-const int led_jaune = 48;   
-const int led_verte = 50;  
-const int led_bleue = 52;  
+const int led_rouge = 8;   
+const int led_jaune = 7;   
+const int led_verte = 6;  
+const int led_bleue = 5;  
 const int servo_pin = 12; 
 
 void setup() {
@@ -54,6 +55,7 @@ void setup() {
   pinMode(mot_dir4, OUTPUT); 
   pinMode(m1, OUTPUT); 
   pinMode(m2, OUTPUT); 
+  pinMode(m_lift, OUTPUT); 
 
   pinMode(led_rouge, OUTPUT);
   pinMode(led_jaune, OUTPUT);
