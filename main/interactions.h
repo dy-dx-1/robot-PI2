@@ -6,7 +6,7 @@ void wait_for_button(int switch_button){
   digitalWrite(led_rouge, HIGH);    // Lumière rouge allumée, toutes les autres éteintes en attendant 
   digitalWrite(led_jaune, LOW); 
   digitalWrite(led_verte, LOW); 
-  Serial.println("En attente du bouton"); 
+  Serial.print("En attente du bouton "); Serial.println(switch_button); 
   while (digitalRead(switch_button)!=0){
     // Ne rien faire pendant que le bouton n'est pas appuyé
   }  

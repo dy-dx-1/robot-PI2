@@ -34,8 +34,8 @@ void translation(int x){
     digitalWrite(mot_dir4, HIGH); 
   }
 
-  digitalWrite(m1, HIGH); 
-  digitalWrite(m2, HIGH); 
+  analogWrite(m1, 255); 
+  analogWrite(m2, 255); 
   Serial.println("In movement"); 
 }
 void stop_translation(){

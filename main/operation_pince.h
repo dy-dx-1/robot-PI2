@@ -1,44 +1,42 @@
 ////// Fonctions associées à l'opération de la pince et de son système d'élévation 
  
-void lift_box(){
-  extern int led_bleue; 
+void lower_box(){
+  extern int led_verte; 
   extern int lift_dir1; 
   extern int lift_dir2;
   extern int m_lift;  
   Serial.println("Translation de la boîte "); 
-  digitalWrite(led_bleue, HIGH); 
-
+  digitalWrite(led_verte, HIGH); 
   digitalWrite(lift_dir1, HIGH); 
   digitalWrite(lift_dir2, LOW);
-  digitalWrite(m_lift, HIGH); 
-  unsigned long t1 = millis(); 
-  while ((t1 - millis())<=2000){
-    // attendre tant qu'on est pas rendus  
-  }
+  analogWrite(m_lift, 200); 
+
+  wait_for_button(endstop_top); 
+
   Serial.println("Translation de la boîte finie"); 
-  digitalWrite(led_bleue, LOW); 
+  digitalWrite(led_verte, LOW); 
   digitalWrite(m_lift, LOW); 
   digitalWrite(lift_dir1, LOW); 
   digitalWrite(lift_dir2, LOW);
 }
-void lower_box(){
-  extern int led_bleue; 
+
+void lift_box(){
+  extern int led_verte; 
   extern int lift_dir1; 
   extern int lift_dir2;
   extern int m_lift;  
   Serial.println("Translation de la boîte "); 
-  digitalWrite(led_bleue, HIGH); 
+  digitalWrite(led_verte, HIGH); 
 
   digitalWrite(lift_dir1, LOW); 
   digitalWrite(lift_dir2, HIGH);
-  digitalWrite(m_lift, HIGH); 
-  unsigned long t1 = millis(); 
-  while ((t1 - millis())<=2000){
-    // attendre tant qu'on est pas rendus  
-  }
+  analogWrite(m_lift, 200); 
+  
+  wait_for_button(endstop_bottom);  
+
   Serial.println("Translation de la boîte finie"); 
-  digitalWrite(led_bleue, LOW); 
-  digitalWrite(m_lift, LOW); 
+  digitalWrite(led_verte, LOW); 
+  analogWrite(m_lift, 0); 
   digitalWrite(lift_dir1, LOW); 
   digitalWrite(lift_dir2, LOW);
 }

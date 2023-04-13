@@ -4,7 +4,7 @@
 #include "setup.h"        // est en premier afin que les constantes globales entrent dans le scope général tout de suite 
 #include "interactions.h"
 #include "deplacements.h"
-#include "operation_pince.h"
+//#include "operation_pince.h"
 ////////////////////////////////////////////#include "operation_pince.h"
 
 int comm_code = 0;  // est utilisé pour traduire les boutons appuyés à des actions sur l'arduino 
@@ -13,6 +13,47 @@ void dispatch(int current_num) {
   Serial.print("# received: ");Serial.println(current_num); 
   if (current_num!=0){
     last_significant_command = current_num; // signal de traiter un événement qui vient de se passer 
+    switch (current_num){
+      case 13: 
+        pignon.write(150); 
+        Serial.println("Servo pos 180deg"); 
+        break; 
+      case 14: 
+        pignon.write(0); 
+        Serial.println("Servo pos 0"); 
+        break;
+      case 11: 
+        Serial.println("Translation de la boîte "); 
+        digitalWrite(led_verte, HIGH); 
+
+        digitalWrite(lift_dir1, LOW); 
+        digitalWrite(lift_dir2, HIGH);
+        analogWrite(m_lift, 255); 
+        
+        wait_for_button(endstop_top);  
+
+        Serial.println("Translation de la boîte finie"); 
+        digitalWrite(led_verte, LOW); 
+        analogWrite(m_lift, 0); 
+        digitalWrite(lift_dir1, LOW); 
+        digitalWrite(lift_dir2, LOW);
+        break; 
+      case 12:   
+        Serial.println("Translation de la boîte "); 
+        digitalWrite(led_verte, HIGH); 
+        digitalWrite(lift_dir1, HIGH); 
+        digitalWrite(lift_dir2, LOW);
+        analogWrite(m_lift, 255); 
+
+        wait_for_button(endstop_bottom); 
+
+        Serial.println("Translation de la boîte finie"); 
+        digitalWrite(led_verte, LOW); 
+        digitalWrite(m_lift, LOW); 
+        digitalWrite(lift_dir1, LOW); 
+        digitalWrite(lift_dir2, LOW); 
+        break;
+    }
   }
   if (current_num == 0 && last_significant_command != 0){
     // Si on rentre ici, il faut traiter l'événement 
@@ -46,20 +87,6 @@ void dispatch(int current_num) {
     // donc on ne considère que quand on reçoit 11, 12, 13 et 14. 1, 2, 3 et 4 sont ignorés car on peut forcer le retour à la normale après 
     // l'execution de la fonction associée au bouton 
     else if ((last_significant_command-10)<0 && last_significant_command<=5){
-      switch (last_significant_command){ 
-        case 11:
-        lift_box(); 
-          break;
-        case 12:
-        lower_box(); 
-          break; 
-        case 13:
-          pignon.write(180); 
-          break;
-        case 14:
-        pignon.write(0); 
-          break; 
-      }
       last_significant_command = 0;  // tel que mentionné plus tôt, on on peut maintenant ignoré qu'on a appuyé sur un bouton 
     }
     else{
