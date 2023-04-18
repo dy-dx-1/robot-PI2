@@ -66,7 +66,6 @@ void start_bluetooth_connection(){
   Serial.println("******************************");
   Serial.println("Connection complete!"); 
   Serial.println("******************************");
-  digitalWrite(led_bleue, HIGH); 
   digitalWrite(led_jaune, LOW); // on est connectés 
 }
 
