@@ -15,30 +15,22 @@ void wait_for_button(int switch_button){
   digitalWrite(led_rouge, LOW);     // On éteint la lumière rouge pour signaler que le temps d'attente est fini 
 }
 
-void blink_led(String couleur){
-  //// Clignote une des leds du prototype 
-  int led_pin{};
-  int dtime = 400;                  // Période du clignotage en ms 
-  if (couleur == "rouge"){
-    led_pin = led_rouge; 
+void led_rainbow(){
+  for (int i=0; i<=3; i++){
+    digitalWrite(led_rouge, HIGH); 
+    delay(100); 
+    digitalWrite(led_rouge, LOW);
+
+    digitalWrite(led_jaune, HIGH); 
+    delay(100); 
+    digitalWrite(led_jaune, LOW);
+
+    digitalWrite(led_verte, HIGH); 
+    delay(100); 
+    digitalWrite(led_verte, LOW);
+
+    digitalWrite(led_bleue, HIGH); 
+    delay(100); 
+    digitalWrite(led_bleue, LOW);
   }
-  else if (couleur == "verte"){
-    led_pin = led_verte; 
-  }
-  else if (couleur == "jaune"){
-    led_pin = led_jaune; 
-  }
-  else if (couleur == "bleue"){
-    led_pin = led_bleue; 
-  }
-  else {
-    Serial.println("COULEUR DE LED INTROUVABLE"); 
-    return; 
-  }
-  for (int i=0; i<=2; i++){
-    delay(dtime); 
-    digitalWrite(led_pin, HIGH); 
-    delay(dtime); 
-    digitalWrite(led_pin, LOW);
-  } 
 }

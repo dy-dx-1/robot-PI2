@@ -6,7 +6,6 @@
 #include "bluetooth_config.h"
 
 #include <Servo.h> 
-#include <AccelStepper.h>
 
 //// Création de l'objet bluetooth
 Adafruit_BluefruitLE_UART ble(BLUEFRUIT_HWSERIAL_NAME, BLUEFRUIT_UART_MODE_PIN); 
@@ -21,8 +20,6 @@ const int diametre_pignon = 24;     // Diamètre du pignon du servo de la boîte
 int distance_translation = 100; // Distance en translation fixe de base [mm], peut être modifié avec l'appli (voir deplacements.h)
 
 // Création des objets représentant les moteurs 
-AccelStepper moteur_G(AccelStepper::FULL4WIRE, 11, 9, 10, 46);
-AccelStepper moteur_D(AccelStepper::FULL4WIRE, 48, 5, 50, 4); 
 const int mot_dir1 = 22; 
 const int mot_dir2 = 24; // Pins de direction du moteur DC
 const int mot_dir3 = 43; 
@@ -33,7 +30,7 @@ Servo pignon;
 
 const int m_lift = 9; 
 const int lift_dir1 = 34; 
-const int lift_dir2 = 32; //////////////PLACEHOLDERS!!! TO PROPERLY ASSOCIATE 
+const int lift_dir2 = 32; 
 
 //// Déclaration des constantes associées aux pins 
 const int button = 53;          // bouton de démarrage 
@@ -65,8 +62,6 @@ void setup() {
   pinMode(endstop_bottom, INPUT_PULLUP); 
   pinMode(endstop_top, INPUT_PULLUP); 
 
-  void stepper_setup(); // Forward declaration de stepper_setup pour le mettre en bas de setup() 
-  stepper_setup(); // Initialisation des vitesses et accélérations des steppers 
   digitalWrite(lift_dir1, LOW); // on s'assure que le moteur DC est figé 
   digitalWrite(lift_dir2, LOW); 
   
@@ -74,18 +69,8 @@ void setup() {
   wait_for_button(button); 
   digitalWrite(led_jaune, HIGH); // pour signifier qu'on est en attente de connection 
   start_bluetooth_connection(); 
-}
-
-void stepper_setup(){
-  //// Fonction ajustant les paramètres de fonctionnement des moteurs à leur valeurs de défaut 
-  // setSpeed --> s'applique juste quand runSpeed() est appellé (pendant les tours) 
-  // setMaxSpeed --> s'applique juste quand move() est appellé (pendant les translations) 
-  // setAcceleration --> s'applique partout 
-  moteur_G.setSpeed(base_stepper_speed); 
-  moteur_G.setMaxSpeed(base_stepper_speed); 
-  moteur_G.setAcceleration(stepper_accel);
-
-  moteur_D.setSpeed(base_stepper_speed); 
-  moteur_D.setMaxSpeed(base_stepper_speed); 
-  moteur_D.setAcceleration(stepper_accel);
+  // connection completée avec succès 
+  void led_rainbow(); 
+  led_rainbow(); 
+  digitalWrite(led_bleue, HIGH); 
 }
