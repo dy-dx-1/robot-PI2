@@ -32,8 +32,8 @@ const int m2 = 2;
 Servo pignon; 
 
 const int m_lift = 9; 
-const int lift_dir1 = 26; 
-const int lift_dir2 = 28; //////////////PLACEHOLDERS!!! TO PROPERLY ASSOCIATE 
+const int lift_dir1 = 34; 
+const int lift_dir2 = 32; //////////////PLACEHOLDERS!!! TO PROPERLY ASSOCIATE 
 
 //// Déclaration des constantes associées aux pins 
 const int button = 53;          // bouton de démarrage 
